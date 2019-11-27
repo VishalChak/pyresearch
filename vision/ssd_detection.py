@@ -36,7 +36,9 @@ def get_detection(ssd_model, utils , img_list):
 if __name__ == "__main__":
     precision = 'fp32'
     img_list = ["/media/bharatforge/Ubuntu_data/vishal/datasets/VOC2012/JPEGImages/2007_000027.jpg",
-                "/media/bharatforge/Ubuntu_data/vishal/datasets/photos_/IMG_20191001_162245.jpg"]
+                "/media/bharatforge/Ubuntu_data/vishal/datasets/photos_/IMG_20191001_162245.jpg",
+                "/media/bharatforge/Ubuntu_data/vishal/datasets/ODCT_REC_Video/VID_20191001_162850/frame574.jpg",
+                "/media/bharatforge/Ubuntu_data/vishal/datasets/ODCT_REC_Video/VID_20191001_162850/frame256.jpg"]
     utils = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_ssd_processing_utils')
     ssd_model = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_ssd', model_math=precision)
     best_results_per_input = get_detection(ssd_model, utils, img_list)
