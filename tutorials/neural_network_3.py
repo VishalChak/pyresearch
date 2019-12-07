@@ -72,4 +72,61 @@ output = net(x)
 target = torch.randn(10)  # a dummy target, for example
 target = target.view(1, -1)   ###make it the same shape as output
 
- 
+criterion = nn.MSELoss()
+
+loss = criterion(output, target)
+print(loss)
+
+print(loss.grad_fn)  ### MSE Loss
+print(loss.grad_fn.next_functions[0][0])  # Linear
+print(loss.grad_fn.next_functions[0][0].next_functions[0][0]) ## Relu 
+
+
+### Backprop
+
+### To backpropagate the error all we have to do is to loss.backward(). You need to clear the existing gradients though, else gradients will be accumulated to existing gradients.
+
+
+                ### IMp ###
+            ## Now we shall call loss.backward(), and have a look at conv1’s bias gradients before and after the backward.
+        
+net.zero_grad()     # zeroes the gradient buffers of all parameters
+
+print('conv1.bias.grad before backward')
+print(net.conv1.bias.grad)
+
+loss.backward()
+
+print('conv1.bias.grad after backward')
+print(net.conv1.bias.grad)
+
+
+
+##Update the weights
+#The simplest update rule used in practice is the Stochastic Gradient Descent (SGD):
+
+#weight = weight - learning_rate * gradient
+
+
+learning_rate = 0.01
+
+for f in net.parameters():
+    f.data.sub_(f.grad.data * learning_rate)
+    
+    
+#However, as you use neural networks, you want to use various different update rules
+# such as SGD, Nesterov-SGD, Adam, RMSProp, etc. To enable this, we built a small
+# package: torch.optim that implements all these methods
+    
+    
+import torch.optim as optim
+
+optimizer = optim.SGD(net.parameters(), lr = 0.01)
+
+## in ur traning loop
+
+optimizer.zero_grad()  ## zero the gradient buffer
+output = net(x)
+loss = criterion(output, target)
+loss.backward()
+optimizer.step()
