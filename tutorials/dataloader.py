@@ -12,7 +12,7 @@ from torchvision import datasets, transforms
 from torch.utils.data.sampler import SubsetRandomSampler
 
 def load_split_train_test(datadir, valid_size = .2):
-    data_transforms = transforms.Compose([transforms.Resize(224),  transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    data_transforms = transforms.Compose([transforms.Resize(64),  transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
     
     train_data = datasets.ImageFolder(datadir, transform= data_transforms)
     test_data = datasets.ImageFolder(datadir, transform= data_transforms)
@@ -35,7 +35,7 @@ valid_size = .2
 
 trainloader, testloader = load_split_train_test(datadir, valid_size)
 
-
+###  Img show 
 
 import matplotlib.pyplot as plt
 
@@ -59,3 +59,65 @@ imgs, labels = dataiter.next()
 imshow(torchvision.utils.make_grid(imgs))
 for i in range(len(imgs)):
     imshow_label(imgs[i], str(labels[0].item()))
+    
+    
+    #####
+
+### Net    
+import torch.nn as nn
+import torch.nn.functional as F
+
+
+class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.conv1 = nn.Conv2d(3, 6, 2)
+        self.conv2 = nn.Conv2d(6, 16, 2)
+        self.pool = nn.MaxPool2d(2,2)
+        self.fc1 = nn.Linear(16 * 16 * 16, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 10)
+        self.fc4 = nn.Linear(10, 2)
+        
+    def forward(self, x):
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 16 * 16 * 16)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc3(x))
+        x = self.fc4(x)
+        return x
+    
+    
+net = Net()
+
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.SGD(net.parameters(), lr= 0.01, momentum=0.9)
+
+for epoch in range(2):
+    running_loss = 0.0
+    
+    for i , data in enumerate(trainloader, 0):
+        inputs, labels = data
+        optimizer.zero_grad()
+        
+        
+        ## forward + backward + opimize
+        
+        outputs = net(inputs)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+        
+        running_loss += loss.item()
+        ## print(statics)
+        if i%100 ==99:
+            print('[%d, %5d] loss: %3f' % (epoch +1, i+1, running_loss/ 100 ))
+            running_loss = 0.0
+print('Finished Traning')
+
+    
+    
+    
+    

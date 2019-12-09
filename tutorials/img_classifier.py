@@ -122,11 +122,3 @@ print('Finished Training')
 
 PATH = '/home/vishal/pyresearch/tutorials/cifar_net.pth'
 torch.save(net.state_dict(), PATH)
-        
-        
-        
-        
-    
-
-        
-
