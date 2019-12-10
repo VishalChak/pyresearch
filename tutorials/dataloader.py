@@ -117,6 +117,10 @@ for epoch in range(2):
             running_loss = 0.0
 print('Finished Traning')
 
+
+##4*4 means output of the last CNN is 4x4 image/filter:
+##outputSizeOfCov = [(inputSize + 2*pad - filterSize)/stride] + 1
+
     
     
     
