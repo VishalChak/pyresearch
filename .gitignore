@@ -1,3 +1,4 @@
+*runs/
 *.pt
 *__pycache__/
 *.~lock.det_yolo3
