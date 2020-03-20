@@ -12,11 +12,11 @@ y = Variable(torch.Tensor([[2.0], [4.0], [6.0]]))
 class LinearRegressionModel(nn.Module):
     def __init__(self):
         super(LinearRegressionModel, self).__init__()
-        self.linear = nn.Linear(1,1)
-
+        self.liner = nn.Linear(1,1)
     def forward(self, x):
-        y_pred = self.linear(x)
+        y_pred = self.liner(x)
         return y_pred
+
 
 if __name__ == "__main__":
     model = LinearRegressionModel()
