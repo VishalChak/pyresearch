@@ -48,7 +48,6 @@ if __name__ == "__main__":
     print(len(test_dataset))
     print(images.shape)
     print(labels.shape)
-
     
     net = Net()
     print(net)
