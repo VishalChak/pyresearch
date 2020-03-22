@@ -21,7 +21,7 @@ network = models.Sequential()
 network.add(layers.Dense(512, activation='relu', input_shape=(28 *28, )))
 network.add(layers.Dense(10, activation='softmax'))
 
-network.compile(optimizer='rmsprop', loss= 'categorical_crossentropy', metrics=['accuracy'])
+network.compile(optimizer='rmsprop', loss= keras.losses.categorical_crossentropy, metrics=['accuracy'])
 
 train_images = train_images.reshape((60000, 28 * 28))
 train_images = train_images.astype('float32') / 255
