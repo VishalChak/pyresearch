@@ -5,6 +5,8 @@ import torch.nn.functional as F
 import torchvision.transforms as transforms
 
 
+##https://www.deeplearningwizard.com/deep_learning/practical_pytorch/pytorch_convolutional_neuralnetwork/
+
 
 class Net(nn.Module):
     def __init__(self):
