@@ -1,4 +1,8 @@
-import keras
+import  keras
+import tensorflow as tf
 
-print(keras.__version__
-)
+if __name__ == "__main__":
+    print(tf.__version__)
+    print(keras.__version__)
+
+
